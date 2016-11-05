@@ -14,9 +14,10 @@
 
 import facebook as fb
 import requests
-
+import argparse
 import textblob as tb
 
+FLAGS = None
 
 def sentiment_analysis(post):
 
@@ -38,8 +39,8 @@ def connect(access_token, user):
 
 def main():
 
-    access_token = ''
-    user = ''
+    access_token = FLAGS.access_token
+    user = FLAGS.profile
 
     graph, profile = connect(access_token, user)
     
@@ -57,4 +58,8 @@ def main():
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Simple Facebook Sentiment Analysis Script')
+    parser.add_argument('--access_token', type=str, required=True, default='', help='Your Facebook API Access Token: https://developers.facebook.com/docs/graph-api/overview')
+    parser.add_argument('--profile', type=str, required=True, default='', help='The profile name to retrieve the posts from')
+    FLAGS = parser.parse_args()
     main()
